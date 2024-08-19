@@ -94,7 +94,7 @@ public class Adress implements Comparable<Adress> {
     @Override
     public String toString() {
 
-        return "(O Cep " + cep + "fica no bairro " + bairro + ", no estado " + uf + "cujo o ddd é " + ddd + ".";
+        return "(O Cep " + cep + "fica no bairro " + bairro + ", no estado " + uf + ", cujo o ddd é " + ddd + ".";
     }
     
 }

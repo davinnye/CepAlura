@@ -22,7 +22,6 @@ import br.com.alura.cepalura.models.OmdAdress;
 public class Main {
     public static void main(String[] args) throws IOException {
         Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
                 .setPrettyPrinting()
                 .create();
         
@@ -30,7 +29,7 @@ public class Main {
         List<Adress> adresses = new ArrayList<>();
 
         while (!search.equalsIgnoreCase("sair")) {
-            System.out.print("Digite o nome do cep que quer pesquisar: ");
+            System.out.print("Digite o cep que quer pesquisar: ");
             Scanner reader = new Scanner(System.in);
             search = reader.nextLine();
             if (search.equalsIgnoreCase("sair")) {
@@ -38,9 +37,9 @@ public class Main {
             }
 
             String encodedSearch = URLEncoder.encode(search, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
-            String url = "https://viacep.com.br/ws/" + encodedSearch + "/json/";
+            String url = "https://viacep.com.br/ws/" + search + "/json/";
 
-            HttpClient client = HttpClient.newHttpClient();
+            try {HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .build();
@@ -48,9 +47,15 @@ public class Main {
                     .send(request, HttpResponse.BodyHandlers.ofString());
 
             String json = response.body();
+            System.out.println(response);
             OmdAdress myOmdAdress = gson.fromJson(json, OmdAdress.class);
+            System.out.println(myOmdAdress);
             Adress myAdress = new Adress(myOmdAdress);
+            System.out.println(myAdress);
             adresses.add(myAdress);
+            } catch (Exception e){
+                System.err.println(e);
+            }
 
         }
         FileWriter savedAdresses = new FileWriter("adresses.json");
