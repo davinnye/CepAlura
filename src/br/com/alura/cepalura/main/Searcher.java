@@ -1,6 +1,5 @@
 package br.com.alura.cepalura.main;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -23,7 +22,7 @@ public class Searcher {
             response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
             return new Gson().fromJson(response.body(), Adress.class);
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Não consegui obter a partir desse cep");
         }
 
